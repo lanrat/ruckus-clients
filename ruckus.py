@@ -41,6 +41,10 @@ def _parse_clients_resp(xml_text):
     clients_xml = root.find('response').find('apstamgr-stat').findall('client')
 
     for client in clients_xml:
+        status = client.get('status')
+        #0:Unauthorized, 1:Authorized, 2:Authenticating, 3:PSKExpired, 4:AuthorizedDeny, 5:AuthorizedPermit, 6:Disconnected
+        if status != '1':
+          continue
         mac = client.get('mac')
         name = client.get('hostname')
         clients.append({
